@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Health Diagnosis Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>AI Health Diagnosis Assistant</h1>
+  
+  <div class="container">
+    <form id="healthForm">
+      <label for="symptoms">Enter your symptoms:</label>
+      <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
+      
+      <button type="submit">Submit Symptoms</button>
+    </form>
+
+    <div id="result" class="result">
+      <!-- Health advice and medication will be displayed here -->
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("healthForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const symptoms = document.getElementById("symptoms").value.toLowerCase();
+      const resultElement = document.getElementById("result");
+
+      // Predefined symptom-based answers with medication suggestions
+      const predefinedAnswers = {
+        "headache": {
+          "answer": "You might have a headache caused by stress, dehydration, or a cold. Rest, drink plenty of fluids, and consider using over-the-counter pain relief such as ibuprofen or acetaminophen.",
+          "medication": ["Ibuprofen", "Acetaminophen", "Aspirin"]
+        },
+        "sore throat": {
+          "answer": "A sore throat can be a sign of a common cold or flu. Gargling with salt water, staying hydrated, and taking throat lozenges may help.",
+          "medication": ["Tylenol", "Throat lozenges", "Cough syrup"]
+        },
+        "fever": {
+          "answer": "Fever could be related to an infection like the flu or cold. It's best to rest and stay hydrated. You may take fever reducers like acetaminophen or ibuprofen.",
+          "medication": ["Acetaminophen", "Ibuprofen", "Paracetamol"]
+        },
+        "fatigue": {
+          "answer": "Fatigue can be caused by many factors like stress, poor sleep, or over-exertion. Try improving your sleep, hydration, and managing stress. Consult a doctor if symptoms persist.",
+          "medication": ["Vitamin B12 supplements", "Iron supplements", "Caffeine (in moderation)"]
+        }
+      };
+
+      // Check for predefined answers
+      let foundAnswer = false;
+      for (const [symptom, data] of Object.entries(predefinedAnswers)) {
+        if (symptoms.includes(symptom)) {
+          resultElement.innerHTML = `
+            <h3>Health Advice</h3>
+            <p><strong>Suggested Diagnosis:</strong> ${data.answer}</p>
+            <p><strong>Suggested Medications:</strong></p>
+            <ul>
+              ${data.medication.map(med => `<li>${med}</li>`).join('')}
+            </ul>
+          `;
+          foundAnswer = true;
+          break;
+        }
+      }
+
+      // If no predefined answer found, inform the user
+      if (!foundAnswer) {
+        resultElement.innerHTML = `
+          <h3>Health Advice</h3>
+          <p>I'm not sure about your symptoms. Please consider consulting with a healthcare professional.</p>
+        `;
+      }
+    });
+  </script>
+
+</body>
+</html>
